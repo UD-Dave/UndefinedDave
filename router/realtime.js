@@ -24,31 +24,41 @@ function pause(sec) {
   }).catch(errorHandler);    
 }
 
+async function testAll(testList) {
+  let successCount = 0;
+  let failCount = 0;
+  for(let i = 1; i < testList.unitTest.length - 16; i++) {
+    let testName = Object.values(testList.unitTest[i])
+    console.log(`run ${testName}`);
+    let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
+    if(sw === "resolve") {
+      successCount += 1;
+    } else {
+      failCount += 1;
+    }
+  }
+  console.log(`successCount is ${successCount}`);
+  console.log(`failCount is ${failCount}`);
+}
+
 async function admin(m) {
   let t = {
     token: "XK3REdHDS7mVkoI2DkK2L6Z6TMKn0ausUzq61Ss7NKf2WKT3Ji",
     project: "TpC4urUqG1bJzBMLrX3f",
     user: "6l6dtxlR9tiUwamXrmst",
     testName: m.testName,
-    branch: "UI/UX 2_0"
+    branch: m.branch,
+    unitTest: m.unitTest
   };
 
-  console.log(`run "${t.testName}"`);
+  console.log(t);
 
-  //Test별로 분가기 필요한 경우
-  // switch(m.testName) {
-  //   case 'FFA - realtime(admin)': 
-  //     ;
-  //   break;
-  //   case 'RR - realtime(admin)': 
-  //     ;
-  //   break;
-  //   case 'SE - realtime(admin)': 
-  //     ;
-  //   break;
-  // }
-
-  Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --branch "${t.branch}"`});
+  // Unit Test와 개별 Test 분기
+  if(t.testName === "All Unit Test") {
+    testAll(t);
+  } else {
+    Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --branch "${t.branch}"`});
+  }
 }
 
 
@@ -78,6 +88,7 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
     "testName": m.testName
   };
 
+  console.log(userFormat);
   let fileName = `./players/${userName}.json`;
   userFormat = JSON.stringify(userFormat); 
 
@@ -93,10 +104,12 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
         project: "TpC4urUqG1bJzBMLrX3f",
         user: "6l6dtxlR9tiUwamXrmst",
         testName: m.testName,
-        branch: "UI/UX 2_0"
+        branch: "master"
       };
 
-      Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "RR - realtime(user)" --params-file ${fileName} --branch "${t.branch}"`});
+      Command({ 
+        exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "FFA - realtime(user)" --params-file ${fileName} --branch "${t.branch}"`
+      });
       resolve(1);
     }
   });
@@ -111,16 +124,28 @@ function errorHandler(error) {
 function Command(params) {
   let exec = require('child_process').exec;
   
-  let child = exec(params.exec, function (error, stdout, stderr) {
-      
+  let child = exec(params.exec, (error, stdout, stderr) => {
     if (error !== null) {
-      console.log('exec error: ' + error);
-      return 'error';
+      console.log(error);
+      console.log('테스트가 실패하였습니다. 🙀');
     } else {
-      console.log(`\nRun > ${params.exec}\n`);
-      console.log(`Result >`);
-      console.log(`${stdout}----------------------------------------------------------------`);
-      return 1;
+      console.log('테스트가 성공하였습니다. 👍');
     }
   });
 };
+
+function asyncCommand(params) {
+  return new Promise((resolve, reject) => {
+    let exec = require('child_process').exec;
+    let child = exec(params.exec, (error, stdout, stderr) => {
+      if (error !== null) {
+        console.log('테스트가 실패하였습니다. 🙀');
+        console.log(stdout);
+        reject('error');
+      } else {
+        console.log('테스트가 성공하였습니다. 👍');
+        resolve('resolve');
+      }
+    });
+  }).catch(console.error);
+}
