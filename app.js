@@ -19,24 +19,31 @@ let pingpongTest = {
 let unitTest = [
   {allTest: "All Unit Test"},
   {test1: "UT - Admin -> User 정지하기"},
-  {test2: "UT - Change Profile"},
-  {test3: "UT - SA Admin 지정 및 삭제"},
-  {test4: "UT - User 대회 -> 하단블럭 fixed 검증"},
-  {test5: "UT - login"},
-  {test6: "UT - 대진표 생성 to 발표"},
-  {test7: "UT - 대회생성"},
-  {test8: "UT - 대회정보 수정"},
-  {test9: "UT - 상금 지정하기"},
-  {test10: "UT - 선수 리스트 더보기 검증"},
-  {test11: "UT - 언어변경 테스트"},
-  {test12: "UT - 접수 및 초대코드"},
-  {test13: "UT - 접수팀 관리"},
-  {test14: "UT - 직접추가"},
-  {test15: "UT - 초대코드"},
-  {test16: "UT - 출석"},
-  {test17: "UT - 팀 리스트 더보기 검증"},
-  {test18: "UT - 플랫폼 설정 수정"},
-  {test19: "UT - 회원가입"}
+  {test2: "UT - Ban 사용자 검증"},
+  {test3: "UT - Change Profile"},
+  {test4: "UT - SA Admin 지정 및 삭제"},
+  {test5: "UT - User 대회 -> 하단블럭 fixed 검증"},
+  {test6: "UT - login"},
+  {test7: "UT - 대진표 생성 to 발표"},
+  {test8: "UT - 대회관리 상단"},
+  {test9: "UT - 대회생성"},
+  {test10: "UT - 대회정보 수정"},
+  {test11: "UT - 상금 지정하기"},
+  {test12: "UT - 선수 리스트 더보기 검증"},
+  {test13: "UT - 스폰서쉽 Tier 미션 검증"},
+  {test14: "UT - 시즌 대회 노출 검증"},
+  {test15: "UT - 언어변경 테스트"},
+  {test16: "UT - 오거나이저 홈 화면 구성"},
+  {test17: "UT - 접수 및 초대코드"},
+  {test18: "UT - 접수팀 관리"},
+  {test19: "UT - 직접추가"},
+  {test20: "UT - 초대코드"},
+  {test21: "UT - 출석"},
+  {test22: "UT - 통합검색"},
+  {test23: "UT - 팀 리스트 더보기 검증"},
+  {test24: "UT - 플랫폼 설정 수정"},
+  {test25: "UT - 플랫폼 통합가입 시 이용약관 검증"},
+  {test26: "UT - 회원가입"}
 ];
 
 let realtimeRun = cp.fork('./router/realtime.js');
@@ -88,6 +95,13 @@ let html_index = (item) => {
       <li style="margin-top:10px; ">${unitTest[17].test17} <button onClick='run("${unitTest[17].test17}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[18].test18} <button onClick='run("${unitTest[18].test18}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[19].test19} <button onClick='run("${unitTest[19].test19}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[20].test20} <button onClick='run("${unitTest[20].test20}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[21].test21} <button onClick='run("${unitTest[21].test21}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[22].test22} <button onClick='run("${unitTest[22].test22}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[23].test23} <button onClick='run("${unitTest[23].test23}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[24].test24} <button onClick='run("${unitTest[24].test24}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[25].test25} <button onClick='run("${unitTest[25].test25}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[26].test26} <button onClick='run("${unitTest[26].test26}")'>Run</button></li>
   </ul>
   <script>
     let branchText = document.querySelector('.branch > strong');
@@ -126,6 +140,13 @@ let html_index = (item) => {
       test17: "${unitTest[17].test17}",
       test18: "${unitTest[18].test18}",
       test19: "${unitTest[19].test19}",
+      test19: "${unitTest[20].test20}",
+      test19: "${unitTest[21].test20}",
+      test19: "${unitTest[22].test20}",
+      test19: "${unitTest[23].test20}",
+      test19: "${unitTest[24].test20}",
+      test19: "${unitTest[25].test20}",
+      test19: "${unitTest[26].test20}"
     }
 
     function run(testName) {

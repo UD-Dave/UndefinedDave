@@ -27,7 +27,9 @@ function pause(sec) {
 async function testAll(testList) {
   let successCount = 0;
   let failCount = 0;
-  for(let i = 1; i < testList.unitTest.length - 16; i++) {
+  let failTestNameArr = [];
+
+  for(let i = 1; i < testList.unitTest.length; i++) {
     let testName = Object.values(testList.unitTest[i])
     console.log(`run ${testName}`);
     let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
@@ -35,10 +37,15 @@ async function testAll(testList) {
       successCount += 1;
     } else {
       failCount += 1;
+      failTestNameArr.push(testName);
     }
   }
   console.log(`successCount is ${successCount}`);
   console.log(`failCount is ${failCount}`);
+  console.log(`-------------------------------------------------------------`);
+  console.log(`실패한 테스트 👇`);
+  console.log(failTestNameArr);
+  console.log(`-------------------------------------------------------------`);
 }
 
 async function admin(m) {
@@ -50,8 +57,6 @@ async function admin(m) {
     branch: m.branch,
     unitTest: m.unitTest
   };
-
-  console.log(t);
 
   // Unit Test와 개별 Test 분기
   if(t.testName === "All Unit Test") {
@@ -140,7 +145,6 @@ function asyncCommand(params) {
     let child = exec(params.exec, (error, stdout, stderr) => {
       if (error !== null) {
         console.log('테스트가 실패하였습니다. 🙀');
-        console.log(stdout);
         reject('error');
       } else {
         console.log('테스트가 성공하였습니다. 👍');
