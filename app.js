@@ -233,7 +233,7 @@ async function start() {
 };
 
 // HTTP 서버 실행
-start();
+start();;
 
 
 module.exports = {
