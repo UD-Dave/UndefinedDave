@@ -42,10 +42,10 @@ async function testAll(testList) {
   }
   console.log(`successCount is ${successCount}`);
   console.log(`failCount is ${failCount}`);
-  console.log(`-------------------------------------------------------------`);
+  console.log(`------------------------------------------------------------`);
   console.log(`실패한 테스트 👇`);
   console.log(failTestNameArr);
-  console.log(`-------------------------------------------------------------`);
+  console.log(`------------------------------------------------------------`);
 }
 
 async function admin(m) {
