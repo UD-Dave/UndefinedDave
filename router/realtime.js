@@ -14,14 +14,12 @@ process.on('message', async (m) => {
   }
 }); 
 
-//process.send({ foo: 'bar' });
-
 function pause(sec) {
   return new Promise((resolve, reject) => {
     let a = setTimeout(()=>{
       resolve(1);
     }, sec);
-  }).catch(errorHandler);    
+  }).catch(errorHandler);
 }
 
 async function testAll(testList) {
@@ -61,6 +59,18 @@ async function admin(m) {
   // Unit Test와 개별 Test 분기
   if(t.testName === "All Unit Test") {
     testAll(t);
+  } else if(t.testName === "autoRun") {
+    const runHour = 9;
+    const runMinute = 0;
+    console.log(`매일 오전 ${runHour}시 ${runMinute}분에 실행 될 예정입니다.`)
+    setInterval(() => {
+      let time = new Date();
+      let hour = time.getHours();
+      let minute = time.getMinutes();
+      if(hour === runHour && minute === runMinute) {
+        testAll(t);
+      }
+    }, 60000);
   } else {
     Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --branch "${t.branch}"`});
   }

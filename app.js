@@ -66,8 +66,9 @@ let html_index = (item) => {
   <p class="branch">The current branch is <strong></strong></p>
   <button onClick="changeBranch()">Change</button>
   <ul style="font-size:18px;">
+    <h2>auto QA run <button onClick='run("autoRun")'>Run</button></h2>
     <h2>Realtime Test</h2>
-      <li style="margin-top:10px; ">${realtimeTest.FFA} <button onClick='run("${realtimeTest.FFA}"'>Run</button></li>
+      <li style="margin-top:10px; ">${realtimeTest.FFA} <button onClick='run("${realtimeTest.FFA}")'>Run</button></li>
       <li style="margin-top:10px; ">${realtimeTest.RR} <button onClick='run("${realtimeTest.RR}")'>Run</button></li>
       <li style="margin-top:10px; ">${realtimeTest.SE} <button onClick='run("${realtimeTest.SE}")'>Run</button></li>
     <h2>P&P Test</h2>
