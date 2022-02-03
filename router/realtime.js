@@ -60,7 +60,7 @@ async function admin(m) {
   if(t.testName === "All Unit Test") {
     testAll(t);
   } else if(t.testName === "autoRun") {
-    const runHour = 9;
+    const runHour = 6;
     const runMinute = 0;
     console.log(`매일 오전 ${runHour}시 ${runMinute}분에 실행 될 예정입니다.`)
     setInterval(() => {
