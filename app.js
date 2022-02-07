@@ -37,13 +37,15 @@ let unitTest = [
   {test17: "UT - 접수 및 초대코드"},
   {test18: "UT - 접수팀 관리"},
   {test19: "UT - 직접추가"},
-  {test20: "UT - 초대코드"},
-  {test21: "UT - 출석"},
-  {test22: "UT - 통합검색"},
-  {test23: "UT - 팀 리스트 더보기 검증"},
-  {test24: "UT - 플랫폼 설정 수정"},
-  {test25: "UT - 플랫폼 통합가입 시 이용약관 검증"},
-  {test26: "UT - 회원가입"}
+  {test20: "UT - 지ㄱ접추가로 bulk팀 생성 후 삭제"},
+  {test21: "UT - 초대코드"},
+  {test22: "UT - 출석"},
+  {test23: "UT - 출전선수 미달 팀 접수"},
+  {test24: "UT - 통합검색"},
+  {test25: "UT - 팀 리스트 더보기 검증"},
+  {test26: "UT - 플랫폼 설정 수정"},
+  {test27: "UT - 플랫폼 통합가입 시 이용약관 검증"},
+  {test28: "UT - 회원가입"}
 ];
 
 let realtimeRun = cp.fork('./router/realtime.js');
@@ -103,6 +105,8 @@ let html_index = (item) => {
       <li style="margin-top:10px; ">${unitTest[24].test24} <button onClick='run("${unitTest[24].test24}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[25].test25} <button onClick='run("${unitTest[25].test25}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[26].test26} <button onClick='run("${unitTest[26].test26}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[27].test27} <button onClick='run("${unitTest[27].test27}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[28].test28} <button onClick='run("${unitTest[28].test28}")'>Run</button></li>
   </ul>
   <script>
     let branchText = document.querySelector('.branch > strong');
@@ -147,7 +151,9 @@ let html_index = (item) => {
       test19: "${unitTest[23].test20}",
       test19: "${unitTest[24].test20}",
       test19: "${unitTest[25].test20}",
-      test19: "${unitTest[26].test20}"
+      test19: "${unitTest[26].test20}",
+      test19: "${unitTest[27].test20}",
+      test19: "${unitTest[28].test20}"
     }
 
     function run(testName) {
