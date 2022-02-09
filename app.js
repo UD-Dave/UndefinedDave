@@ -18,34 +18,37 @@ let pingpongTest = {
 
 let unitTest = [
   {allTest: "All Unit Test"},
-  {test1: "UT - Admin -> User 정지하기"},
-  {test2: "UT - Ban 사용자 검증"},
-  {test3: "UT - Change Profile"},
-  {test4: "UT - SA Admin 지정 및 삭제"},
-  {test5: "UT - User 대회 -> 하단블럭 fixed 검증"},
-  {test6: "UT - login"},
-  {test7: "UT - 대진표 생성 to 발표"},
-  {test8: "UT - 대회관리 상단"},
-  {test9: "UT - 대회생성"},
-  {test10: "UT - 대회정보 수정"},
-  {test11: "UT - 상금 지정하기"},
-  {test12: "UT - 선수 리스트 더보기 검증"},
-  {test13: "UT - 스폰서쉽 Tier 미션 검증"},
-  {test14: "UT - 시즌 대회 노출 검증"},
-  {test15: "UT - 언어변경 테스트"},
-  {test16: "UT - 오거나이저 홈 화면 구성"},
-  {test17: "UT - 접수 및 초대코드"},
-  {test18: "UT - 접수팀 관리"},
-  {test19: "UT - 직접추가"},
-  {test20: "UT - 지ㄱ접추가로 bulk팀 생성 후 삭제"},
-  {test21: "UT - 초대코드"},
-  {test22: "UT - 출석"},
-  {test23: "UT - 출전선수 미달 팀 접수"},
-  {test24: "UT - 통합검색"},
-  {test25: "UT - 팀 리스트 더보기 검증"},
-  {test26: "UT - 플랫폼 설정 수정"},
-  {test27: "UT - 플랫폼 통합가입 시 이용약관 검증"},
-  {test28: "UT - 회원가입"}
+  {test1: "UT - 공홈 및 iScrim 비밀번호 찾기 링크 검증"},
+  {test2: "UT - Admin -> User 정지하기"},
+  {test3: "UT - Ban 사용자 검증"},
+  {test4: "UT - Change Profile"},
+  {test5: "UT - SA Admin 지정 및 삭제"},
+  {test6: "UT - User 대회 -> 하단블럭 fixed 검증"},
+  {test7: "UT - login"},
+  {test8: "UT - 대진표 생성 to 발표"},
+  {test9: "UT - 대회관리 상단"},
+  {test10: "UT - 대회생성"},
+  {test11: "UT - 대회정보 수정"},
+  {test12: "UT - 상금 지정하기"},
+  {test13: "UT - 선수 리스트 더보기 검증"},
+  {test14: "UT - 스폰서쉽 Tier 미션 검증"},
+  {test15: "UT - 시즌 대회 노출 검증"},
+  {test16: "UT - 언어변경 테스트"},
+  {test17: "UT - 연락처 입력 오류"},
+  {test18: "UT - 오거나이저 홈 화면 구성"},
+  {test19: "UT - 접수 로직 개선"},
+  {test20: "UT - 접수 및 초대코드"},
+  {test21: "UT - 접수팀 관리"},
+  {test22: "UT - 직접추가"},
+  {test23: "UT - 직접추가로 bulk팀 생성 후 삭제"},
+  {test24: "UT - 초대코드"},
+  {test25: "UT - 출석"},
+  {test26: "UT - 출전선수 미달 팀 접수"},
+  {test27: "UT - 통합검색"},
+  {test28: "UT - 팀 리스트 더보기 검증"},
+  {test29: "UT - 플랫폼 설정 수정"},
+  {test30: "UT - 플랫폼 통합가입 시 이용약관 검증"},
+  {test31: "UT - 회원가입"}
 ];
 
 let realtimeRun = cp.fork('./router/realtime.js');
@@ -107,10 +110,13 @@ let html_index = (item) => {
       <li style="margin-top:10px; ">${unitTest[26].test26} <button onClick='run("${unitTest[26].test26}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[27].test27} <button onClick='run("${unitTest[27].test27}")'>Run</button></li>
       <li style="margin-top:10px; ">${unitTest[28].test28} <button onClick='run("${unitTest[28].test28}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[29].test29} <button onClick='run("${unitTest[29].test29}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[30].test30} <button onClick='run("${unitTest[30].test30}")'>Run</button></li>
+      <li style="margin-top:10px; ">${unitTest[31].test31} <button onClick='run("${unitTest[31].test31}")'>Run</button></li>
   </ul>
   <script>
     let branchText = document.querySelector('.branch > strong');
-    let branch = 'auto-detect';
+    let branch = 'master';
     branchText.innerText = branch;
 
     let realtimeTest = {
@@ -153,7 +159,10 @@ let html_index = (item) => {
       test19: "${unitTest[25].test20}",
       test19: "${unitTest[26].test20}",
       test19: "${unitTest[27].test20}",
-      test19: "${unitTest[28].test20}"
+      test19: "${unitTest[28].test20}",
+      test19: "${unitTest[29].test20}",
+      test19: "${unitTest[30].test20}",
+      test19: "${unitTest[31].test20}"
     }
 
     function run(testName) {

@@ -5,7 +5,7 @@ const fs = require('fs');
 process.on('message', async (m) => {
 
   switch(m.type) {
-    case 'admin': 
+    case 'admin':
       admin(m);
     break;
     case 'user': 
@@ -50,7 +50,7 @@ async function admin(m) {
   let t = {
     token: "XK3REdHDS7mVkoI2DkK2L6Z6TMKn0ausUzq61Ss7NKf2WKT3Ji",
     project: "TpC4urUqG1bJzBMLrX3f",
-    user: "6l6dtxlR9tiUwamXrmst",
+    user: "tyYtRktrZgykCJ5oHzNS",
     testName: m.testName,
     branch: m.branch,
     unitTest: m.unitTest
@@ -72,6 +72,7 @@ async function admin(m) {
       }
     }, 60000);
   } else {
+    console.dir(t);
     Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --branch "${t.branch}"`});
   }
 }
@@ -117,10 +118,12 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
       let t = {
         token: "XK3REdHDS7mVkoI2DkK2L6Z6TMKn0ausUzq61Ss7NKf2WKT3Ji",
         project: "TpC4urUqG1bJzBMLrX3f",
-        user: "6l6dtxlR9tiUwamXrmst",
+        user: "tyYtRktrZgykCJ5oHzNS",
         testName: m.testName,
         branch: "master"
       };
+
+      console.dir(t);
 
       Command({ 
         exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "FFA - realtime(user)" --params-file ${fileName} --branch "${t.branch}"`
