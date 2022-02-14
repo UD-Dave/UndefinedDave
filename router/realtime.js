@@ -27,8 +27,10 @@ async function testAll(testList) {
   let failCount = 0;
   let failTestNameArr = [];
 
-  for(let i = 1; i < testList.unitTest.length; i++) {
-    let testName = Object.values(testList.unitTest[i])
+  //첫번째 테스트testList.unitTest.length - 18
+  console.log('첫번째 테스트를 진행합니다.');
+  for(let i = 10; i < 11; i++) {
+    let testName = Object.values(testList.unitTest[i]);
     console.log(`run ${testName}`);
     let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
     if(sw === "resolve") {
@@ -38,11 +40,64 @@ async function testAll(testList) {
       failTestNameArr.push(testName);
     }
   }
+
+  console.log('첫번째 테스트 결과 ---------------------------------');
   console.log(`successCount is ${successCount}`);
   console.log(`failCount is ${failCount}`);
   console.log(`------------------------------------------------------------`);
   console.log(`실패한 테스트 👇`);
   console.log(failTestNameArr);
+  console.log(`------------------------------------------------------------`);
+  //두번째 테스트
+  console.log('두번째 테스트를 진행합니다.');
+  let testLength = failTestNameArr.length;
+  console.log(testLength);
+  successCount = 0;
+  failCount = 0;
+  let secondFailTestNameArr = [];
+  for(let i = 0; i < testLength; i++) {
+    let testName = failTestNameArr[i][0];
+    console.log(`run ${testName}`);
+    let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
+    if(sw === "resolve") {
+      successCount += 1;
+    } else {
+      failCount += 1;
+      secondFailTestNameArr.push(testName);
+    }
+  }
+  console.log('두번째 테스트 결과 ---------------------------------');
+  console.log(`successCount is ${successCount}`);
+  console.log(`failCount is ${failCount}`);
+  console.log(`------------------------------------------------------------`);
+  console.log(`실패한 테스트 👇`);
+  console.log(secondFailTestNameArr);
+  console.log(`------------------------------------------------------------`);
+
+  //세번째 테스트
+  console.log('세번째 테스트를 진행합니다.');
+  testLength = secondFailTestNameArr.length;
+  console.log(testLength);
+  successCount = 0;
+  failCount = 0;
+  let thirdFailTestNameArr = [];
+  for(let i = 0; i < testLength; i++) {
+    let testName = secondFailTestNameArr[i];
+    console.log(`run ${testName}`);
+    let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
+    if(sw === "resolve") {
+      successCount += 1;
+    } else {
+      failCount += 1;
+      thirdFailTestNameArr.push(testName);
+    }
+  }
+  console.log('세번째 테스트 결과 ---------------------------------');
+  console.log(`successCount is ${successCount}`);
+  console.log(`failCount is ${failCount}`);
+  console.log(`------------------------------------------------------------`);
+  console.log(`실패한 테스트 👇`);
+  console.log(thirdFailTestNameArr);
   console.log(`------------------------------------------------------------`);
 }
 
@@ -72,7 +127,6 @@ async function admin(m) {
       }
     }, 60000);
   } else {
-    console.dir(t);
     Command({ exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --branch "${t.branch}"`});
   }
 }
