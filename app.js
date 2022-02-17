@@ -246,6 +246,7 @@ webServer.route({
       realtimeRun.send({
         type: 'user', 
         url,
+        testName: req.query.testName,
       });
       return 1;
     } catch(err){

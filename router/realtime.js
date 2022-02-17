@@ -134,15 +134,16 @@ async function admin(m) {
 
 
 async function player(m) {
+  console.log('m is ...');
   console.log(m);
   let userLength = 6;
 
-  if(m.testName === 'SE - realtime(admin)') {
+  if(m.testName === 'SE - realtime(user)') {
     userLength = 8;
   };
 
   for(let i = 0; i < userLength; i++) {
-    console.log(`Starting single elimination user${i}..`)
+    console.log(`Starting ${m.testName} user ${i}..`)
     await playerStart(i+1, m);
     await pause(50000);
   }
@@ -154,7 +155,7 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
   let userName = `user_${idx}`;
   let userFormat = {
     "user" : userName,
-    "url " : m.url,
+    "url" : m.url,
     "testName": m.testName
   };
 
@@ -176,8 +177,6 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
         testName: m.testName,
         branch: "master"
       };
-
-      console.dir(t);
 
       Command({ 
         exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "FFA - realtime(user)" --params-file ${fileName} --branch "${t.branch}"`
