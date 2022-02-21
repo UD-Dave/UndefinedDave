@@ -29,7 +29,7 @@ async function testAll(testList) {
 
   //첫번째 테스트testList.unitTest.length - 18
   console.log('첫번째 테스트를 진행합니다.');
-  for(let i = 10; i < 11; i++) {
+  for(let i = 1; i < testList.unitTest.length; i++) {
     let testName = Object.values(testList.unitTest[i]);
     console.log(`run ${testName}`);
     let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
