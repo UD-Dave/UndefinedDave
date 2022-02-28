@@ -1,6 +1,39 @@
 const Path = process.cwd();
 const path = require('path');
 const fs = require('fs');
+// const request = require('request');
+// const Slack = require("@slack/web-api");
+
+// const API_TOKEN = "xoxb-1045511020183-3160266767956-OfzQVTJ0VsKpctuayv5U9VaB";
+// // const slack = new Slack(API_TOKEN);
+// Slack.event('chat.postMessage', async ({ event, client, logger }) => {
+//   try {
+//     // Call chat.postMessage with the built-in client
+//     const result = await client.chat.postMessage({
+//       channel: welcomeChannelId,
+//       text: `Welcome to the team, <@${event.user.id}>! 🎉 You can introduce yourself in this channel.`
+//     });
+//     logger.info(result);
+//   }
+//   catch (error) {
+//     logger.error(error);
+//   }
+// });
+
+// function post_message(token, channel, text) {
+//   response = request.post("https://slack.com/api/chat.postMessage",
+//     headers = {
+//       "Authorization": "Bearer" + token
+//     },
+//     data = {
+//       "channel": channel,
+//       "text": text
+//     }
+//   );
+//   console.log(response);
+// };
+
+// post_message(API_TOKEN, "", "hello");
 
 process.on('message', async (m) => {
 
@@ -12,7 +45,7 @@ process.on('message', async (m) => {
       player(m);
     break;
   }
-}); 
+});
 
 function pause(sec) {
   return new Promise((resolve, reject) => {
@@ -30,7 +63,7 @@ async function testAll(testList) {
   //첫번째 테스트testList.unitTest.length - 18
   console.log('첫번째 테스트를 진행합니다.');
   for(let i = 1; i < testList.unitTest.length; i++) {
-    let testName = Object.values(testList.unitTest[i]);
+    let testName = testList.unitTest[i];
     console.log(`run ${testName}`);
     let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
     if(sw === "resolve") {
@@ -56,7 +89,7 @@ async function testAll(testList) {
   failCount = 0;
   let secondFailTestNameArr = [];
   for(let i = 0; i < testLength; i++) {
-    let testName = failTestNameArr[i][0];
+    let testName = failTestNameArr[i];
     console.log(`run ${testName}`);
     let sw = await asyncCommand({ exec: `testim --token "${testList.token}" --project "${testList.project}" --use-local-chrome-driver --user ${testList.user} --name "${testName}" --branch "${testList.branch}"`});
     if(sw === "resolve") {
@@ -134,8 +167,6 @@ async function admin(m) {
 
 
 async function player(m) {
-  console.log('m is ...');
-  console.log(m);
   let userLength = 6;
 
   if(m.testName === 'SE - realtime(user)') {
