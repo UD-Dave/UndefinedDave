@@ -1,39 +1,11 @@
 const Path = process.cwd();
 const path = require('path');
 const fs = require('fs');
-// const request = require('request');
-// const Slack = require("@slack/web-api");
 
-// const API_TOKEN = "xoxb-1045511020183-3160266767956-OfzQVTJ0VsKpctuayv5U9VaB";
-// // const slack = new Slack(API_TOKEN);
-// Slack.event('chat.postMessage', async ({ event, client, logger }) => {
-//   try {
-//     // Call chat.postMessage with the built-in client
-//     const result = await client.chat.postMessage({
-//       channel: welcomeChannelId,
-//       text: `Welcome to the team, <@${event.user.id}>! 🎉 You can introduce yourself in this channel.`
-//     });
-//     logger.info(result);
-//   }
-//   catch (error) {
-//     logger.error(error);
-//   }
-// });
-
-// function post_message(token, channel, text) {
-//   response = request.post("https://slack.com/api/chat.postMessage",
-//     headers = {
-//       "Authorization": "Bearer" + token
-//     },
-//     data = {
-//       "channel": channel,
-//       "text": text
-//     }
-//   );
-//   console.log(response);
-// };
-
-// post_message(API_TOKEN, "", "hello");
+//slack bot setting
+const { WebClient } = require('@slack/web-api');
+const token = "xoxb-1045511020183-3160266767956-OfzQVTJ0VsKpctuayv5U9VaB";
+const web = new WebClient(token);
 
 process.on('message', async (m) => {
 
@@ -59,6 +31,7 @@ async function testAll(testList) {
   let successCount = 0;
   let failCount = 0;
   let failTestNameArr = [];
+  const channel = "#qa-daily-noti-bot";
 
   //첫번째 테스트testList.unitTest.length - 18
   console.log('첫번째 테스트를 진행합니다.');
@@ -132,6 +105,15 @@ async function testAll(testList) {
   console.log(`실패한 테스트 👇`);
   console.log(thirdFailTestNameArr);
   console.log(`------------------------------------------------------------`);
+
+  //슬랙 봇 메세지 보내기
+  (async () => {
+    const date = new Date();
+    const result = await web.chat.postMessage({
+      text: `${date.getMonth()}월 ${date.getDate()}일 실패한 리스트 👇\n${thirdFailTestNameArr}`,
+      channel
+    });
+  })();
 }
 
 async function admin(m) {
@@ -249,4 +231,4 @@ function asyncCommand(params) {
       }
     });
   }).catch(console.error);
-}
+};
