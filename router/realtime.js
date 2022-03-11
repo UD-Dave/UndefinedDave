@@ -4,8 +4,8 @@ const fs = require('fs');
 
 //slack bot setting
 const { WebClient } = require('@slack/web-api');
-const token = "xoxb-1045511020183-3160266767956-OfzQVTJ0VsKpctuayv5U9VaB";
-const web = new WebClient(token);
+const config = require('../config/config.js');
+const web = new WebClient(config.token);
 
 process.on('message', async (m) => {
 
@@ -28,6 +28,7 @@ function pause(sec) {
 }
 
 async function testAll(testList) {
+  console.log(config.token);
   let successCount = 0;
   let failCount = 0;
   let failTestNameArr = [];
