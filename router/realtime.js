@@ -124,21 +124,24 @@ async function admin(m) {
     user: "tyYtRktrZgykCJ5oHzNS",
     testName: m.testName,
     branch: m.branch,
-    unitTest: m.unitTest
+    unitTest: m.unitTest,
+    hours: m.hours,
+    minutes: m.minutes
   };
 
   // Unit Test와 개별 Test 분기
   if(t.testName === "All Unit Test") {
     testAll(t);
   } else if(t.testName === "autoRun") {
-    const runHour = 6;
-    const runMinute = 0;
-    console.log(`매일 오전 ${runHour}시 ${runMinute}분에 실행 될 예정입니다.`)
+    let hours = parseInt(t.hours);
+    let minutes = parseInt(t.minutes);
+
+    console.log(`매일 오전 ${hours}시 ${minutes}분에 실행 될 예정입니다.`);
     setInterval(() => {
       let time = new Date();
       let hour = time.getHours();
       let minute = time.getMinutes();
-      if(hour === runHour && minute === runMinute) {
+      if(hour === hours && minute === minutes) {
         testAll(t);
       }
     }, 60000);

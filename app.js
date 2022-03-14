@@ -9,6 +9,10 @@ const request = require('request');
 let unitTest = ["All Unit Test"];
 let PPTest = [];
 let RTTest = [];
+let autoQATime = {
+  hour: 6,
+  minute: 0
+}
 
 function getTestList() {
   const headers = {
@@ -43,9 +47,20 @@ function getTestList() {
   }
 
   request(options, callback);
-}
+};
 
 getTestList();
+
+function setTime(hour, minute) {
+  if(hour < 0 || hour > 25) {
+    alert("시간은 0 ~ 24 사이의 값을 입력해야 합니다.");
+  } else if (minute < 0 || hour > 60) {
+    alert("분은 0 ~ 60 사이의 값을 입력해야 합니다.");
+  } else {
+    autoQATime.hour = hour;
+    autoQATime.hour = minute;
+  }
+}
 
 function getList(data) {
   let result = '';
@@ -71,10 +86,23 @@ let webServer = new Hapi.server({
 let html_index = (item) => {
   return `
   <h1>iScrim Test List</h1>
-  <p class="branch">The current branch is <strong></strong></p>
-  <button onClick="changeBranch()">Change</button>
+  <span class="branch">The current branch is <strong></strong></span>
+  <button onClick="changeBranch()">Change</button></br>
   <ul style="font-size:18px;">
     <h2>auto QA run <button onClick='run("autoRun")'>Run</button></h2>
+    <span>
+      <span id="hours">${autoQATime.hour}</span><span>시 </span>
+      <span id="minutes">${autoQATime.minute}</span><span>분에 실행됩니다.</span>
+    </span>
+    <button onClick="changeTime()" id="changeTime_button" style="display: block;">시간 설정</button>
+    <div class="changeTime" style="display: none;">
+      <form>
+        <input id="hour" type="number" name="hour" style="width: 60px;">시
+        <input id="minute" type="number" name="minute">분
+        <span>에 Auto QA 실행</span>
+        <button onClick="changeTime()" id="changeTime_button">설정</button>
+      </form>
+    </div>
     <h2>Realtime Test</h2>
       ${getList(RTTest)}
     <h2>P&P Test</h2>
@@ -88,7 +116,35 @@ let html_index = (item) => {
     branchText.innerText = branch;
 
     function run(testName) {
-      location.href = "/realtime-admin?testName=" + testName + "&branch=" + branch;
+      let hours = document.getElementById("hours").textContent;
+      let minutes = document.getElementById("minutes").textContent;
+      location.href = "/realtime-admin?testName=" + testName + "&branch=" + branch + "&hours=" + hours + "&minutes=" + minutes;
+    }
+
+    function changeTime() {
+      event.preventDefault();
+      let changeButton = document.getElementById("changeTime_button").style;
+      let settingButton = document.querySelector(".changeTime").style;
+      let hour = document.getElementById("hour").value;
+      let minute = document.getElementById("minute").value;
+      let hours = document.getElementById("hours");
+      let minutes = document.getElementById("minutes");
+
+      if(changeButton.display == "block") {
+        changeButton.display = "none";
+        settingButton.display = "block";
+      } else {
+        if(hour < 0 || hour > 25) {
+          window.alert("'시'에는 0 ~ 24 사이의 숫자만 입력 가능합니다.");
+        } else if (minute < 0 || minute > 60) {
+          window.alert("'분'에는 0 ~ 60 사이의 숫자만 입력 가능합니다.");
+        } else {
+          hours.innerText = hour;
+          minutes.innerText = minute;
+          changeButton.display = "block";
+          settingButton.display = "none";
+        }
+      }
     }
 
     function runUnitTest() {
@@ -122,7 +178,7 @@ let html_sub1 = (item) => {
   path: '/',
   handler: async function (req, reply) {
     try{
-      return html_index({});
+      return html_index();
     } catch(err){
       console.log(err);
       return 0;
@@ -137,14 +193,18 @@ webServer.route({
     try{
       let testName = req.query.testName;
       let branch = req.query.branch;
+      let hours = req.query.hours;
+      let minutes = req.query.minutes;
 
       console.log(`Run Testim Admin ${testName} of ${branch}`);
-        
+      
       realtimeRun.send({
         type: 'admin',
         testName: testName,
         branch: branch,
-        "unitTest": unitTest
+        "unitTest": unitTest,
+        hours,
+        minutes
       });
 
       return html_sub1({testName});
