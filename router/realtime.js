@@ -28,7 +28,6 @@ function pause(sec) {
 }
 
 async function testAll(testList) {
-  console.log(config.token);
   let successCount = 0;
   let failCount = 0;
   let failTestNameArr = [];
@@ -111,7 +110,7 @@ async function testAll(testList) {
   (async () => {
     const date = new Date();
     const result = await web.chat.postMessage({
-      text: `${date.getMonth()}월 ${date.getDate()}일 실패한 리스트 👇\n${thirdFailTestNameArr}`,
+      text: `${date.getMonth() + 1}월 ${date.getDate()}일 실패한 리스트 👇\n${thirdFailTestNameArr}`,
       channel
     });
   })();
@@ -153,9 +152,10 @@ async function admin(m) {
 
 
 async function player(m) {
+  console.log(m);
   let userLength = 6;
 
-  if(m.testName === 'SE - realtime(user)') {
+  if(m.testName === 'RT - SE(user)') {
     userLength = 8;
   };
 
@@ -196,7 +196,7 @@ function playerStart(idx, m) {return new Promise((resolve, reject) => {
       };
 
       Command({ 
-        exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "FFA - realtime(user)" --params-file ${fileName} --branch "${t.branch}"`
+        exec: `testim --token "${t.token}" --project "${t.project}" --use-local-chrome-driver --user ${t.user} --name "${t.testName}" --params-file ${fileName} --branch "${t.branch}"`
       });
       resolve(1);
     }

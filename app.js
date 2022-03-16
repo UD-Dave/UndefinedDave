@@ -9,10 +9,6 @@ const request = require('request');
 let unitTest = ["All Unit Test"];
 let PPTest = [];
 let RTTest = [];
-let autoQATime = {
-  hour: 6,
-  minute: 0
-}
 
 function getTestList() {
   const headers = {
@@ -91,8 +87,8 @@ let html_index = (item) => {
   <ul style="font-size:18px;">
     <h2>auto QA run <button onClick='run("autoRun")'>Run</button></h2>
     <span>
-      <span id="hours">${autoQATime.hour}</span><span>시 </span>
-      <span id="minutes">${autoQATime.minute}</span><span>분에 실행됩니다.</span>
+      <span id="hours"></span><span>시 </span>
+      <span id="minutes"></span><span>분에 실행됩니다.</span>
     </span>
     <button onClick="changeTime()" id="changeTime_button" style="display: block;">시간 설정</button>
     <div class="changeTime" style="display: none;">
@@ -101,6 +97,7 @@ let html_index = (item) => {
         <input id="minute" type="number" name="minute">분
         <span>에 Auto QA 실행</span>
         <button onClick="changeTime()" id="changeTime_button">설정</button>
+        <button onClick="Cancel()" id="cancel_button">취소</button>
       </form>
     </div>
     <h2>Realtime Test</h2>
@@ -114,6 +111,18 @@ let html_index = (item) => {
     let branchText = document.querySelector('.branch > strong');
     let branch = 'master';
     branchText.innerText = branch;
+    let localStorage = window.localStorage;
+    let hours = document.getElementById("hours");
+    let minutes = document.getElementById("minutes");
+    if(localStorage.getItem("hour") === null || localStorage.getItem("minute") === null) {
+      localStorage.setItem("hour", 6);
+      localStorage.setItem("minute", 0);
+    }
+
+    hours.innerText = localStorage.getItem("hour");
+    minutes.innerText = localStorage.getItem("minute");
+
+
 
     function run(testName) {
       let hours = document.getElementById("hours").textContent;
@@ -127,8 +136,6 @@ let html_index = (item) => {
       let settingButton = document.querySelector(".changeTime").style;
       let hour = document.getElementById("hour").value;
       let minute = document.getElementById("minute").value;
-      let hours = document.getElementById("hours");
-      let minutes = document.getElementById("minutes");
 
       if(changeButton.display == "block") {
         changeButton.display = "none";
@@ -139,12 +146,23 @@ let html_index = (item) => {
         } else if (minute < 0 || minute > 60) {
           window.alert("'분'에는 0 ~ 60 사이의 숫자만 입력 가능합니다.");
         } else {
-          hours.innerText = hour;
-          minutes.innerText = minute;
+          localStorage.setItem("hour", hour);
+          localStorage.setItem("minute", minute);
+          hours.innerText = localStorage.getItem("hour");
+          minutes.innerText = localStorage.getItem("minute");
           changeButton.display = "block";
           settingButton.display = "none";
         }
       }
+    }
+
+    function cancel() {
+      event.preventDefault();
+      let changeButton = document.getElementById("changeTime_button").style;
+      let settingButton = document.querySelector(".changeTime").style;
+
+      changeButton.display = "block";
+      settingButton.display = "none";
     }
 
     function runUnitTest() {
