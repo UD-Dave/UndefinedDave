@@ -35,7 +35,9 @@ function getTestList() {
             PPTest.push(jsonDatas.tests[i].name);
             break;
           case 'RT':
-            RTTest.push(jsonDatas.tests[i].name);
+            if(jsonDatas.tests[i].name.split('(')[1] !== "user)") {
+              RTTest.push(jsonDatas.tests[i].name);
+            }
             break;
         }
       }
